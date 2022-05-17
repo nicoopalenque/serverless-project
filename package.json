@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "aws-sdk": "^2.910.0",
+    "ebased": "^1.6.2"
+  },
+  "devDependencies": {
+    "serverless-offline": "^8.7.0",
+    "serverless-iam-roles-per-function": "^2.0.2"
+  }
+}

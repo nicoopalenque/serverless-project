@@ -1,0 +1,113 @@
+frameworkVersion: '1.78.1'
+service: nicop-ebased
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  stage: dev
+
+functions:
+
+  CreateClient:
+    handler: create-client/handler/create-client.handler
+    name: ${self:service}-${self:provider.stage}-create-client-lambda
+    environment:
+      CLIENTS_TABLE: !Ref ClientsTable
+      CLIENTS_CREATED_TOPIC: !Ref ClientCreatedTopic
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - sns:Publish
+        Resource:
+          - !Ref ClientCreatedTopic
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource:
+          - !GetAtt ClientsTable.Arn
+    events:
+      - http:
+          path: /create-client
+          method: post
+          # cors: true
+  
+  CreateCard:
+    handler: create-card/handler/create-card.handler
+    name: ${self:service}-${self:provider.stage}-create-card-lambda
+    environment:
+      CLIENTS_TABLE: !Ref ClientsTable
+    iamRoleStatementsInherit: true
+    iamRoleStatements: 
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource:
+          - !GetAtt ClientsTable.Arn
+    events:
+      - sqs:
+          arn: !GetAtt CreateCardQueue.Arn
+
+resources:
+    Resources:
+
+      ClientsTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+          TableName: ${self:service}-${self:provider.stage}-create-client
+          AttributeDefinitions:
+            - AttributeName: dni
+              AttributeType: S
+          KeySchema:
+            - AttributeName: dni
+              KeyType: HASH
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+      
+      ClientCreatedTopic:
+        Type: AWS::SNS::Topic
+        Properties:
+          DisplayName: Client Created Topic
+          TopicName: ${self:service}-${self:provider.stage}-client-created-topic
+          Subscription:
+            - Protocol: sqs
+              Endpoint: !GetAtt CreateCardQueue.Arn
+            # - Protocol: sqs
+            #   Endpoint: !GetAtt CreateGiftQueue.Arn
+      
+      CreateCardQueue:
+        Type: AWS::SQS::Queue
+        Properties:
+          QueueName: ${self:service}-${self:provider.stage}-create-card-queue
+
+      CreateCardQueuePolicy:
+        Type: AWS::SQS::QueuePolicy
+        Properties: 
+          PolicyDocument: 
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - SQS:*
+                Resource: !GetAtt CreateCardQueue.Arn
+                Principal:
+                  AWS:
+                    - !Ref AWS::AccountId
+              - Effect: Allow
+                Principal:
+                  AWS: 
+                    - '*'
+                Action: 
+                  - SQS:SendMessage
+                Resource: !GetAtt CreateCardQueue.Arn
+                Condition:
+                  ArnLike:
+                    aws:SourceArn:
+                      - !Ref ClientCreatedTopic
+          Queues: 
+            - !Ref CreateCardQueue
