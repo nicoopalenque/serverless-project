@@ -3,44 +3,26 @@ const { creditCardNumber, expirationDate, securityCode } = require('../helper/ra
 const { setType } = require('../helper/card-type.helper');
 
 const createCardService = async (commandPayload) => {
-  const cardNumber = creditCardNumber();
-  const expiration = expirationDate();
-  const code = securityCode();
-  const type = setType(commandPayload);
-
-  const dbParams = {
+  console.log(commandPayload);
+  const params = {
+    TableName: process.env.CLIENTS_TABLE,
+    Key: { dni: commandPayload.dni },
     ExpressionAttributeNames: {
       "#C": "creditCard",
     },
     ExpressionAttributeValues: {
       ":c": {
-        M: {
-          "number": {
-            S: cardNumber,
-          },
-          "expiration": {
-            S: expiration,
-          },
-          "ccv": {
-            S: code,
-          },
-          "type": {
-            S: type
-          }
-        },
-      },
-    },
-    Key: {
-      dni: {
-        S: commandPayload.dni,
+        number: creditCardNumber(),
+        expiration: expirationDate(),
+        ccv: securityCode(),
+        type: setType(commandPayload),
       },
     },
     ReturnValues: "ALL_NEW",
-    TableName: process.env.CLIENTS_TABLE,
-    UpdateExpression: "SET #C = :c",
-  };
+    UpdateExpression: 'SET #C = :c',
+  }
 
-  await dynamodb.updateItem(dbParams);
+  await dynamodb.updateItem(params);
 }
 
 module.exports = { createCardService };
