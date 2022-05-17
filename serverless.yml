@@ -1,5 +1,5 @@
 frameworkVersion: '1.78.1'
-service: nicop-ebased
+service: nicopalenque-integrador
 
 plugins:
   - serverless-iam-roles-per-function
@@ -46,7 +46,7 @@ functions:
     iamRoleStatements: 
       - Effect: Allow
         Action:
-          - dynamodb:UpdateItem
+          - dynamodb:PutItem
         Resource:
           - !GetAtt ClientsTable.Arn
     events:
