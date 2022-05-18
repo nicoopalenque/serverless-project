@@ -6,9 +6,7 @@ const createCardService = async (commandPayload) => {
   const params = {
     TableName: process.env.CLIENTS_TABLE,
     Key: { dni: commandPayload.dni },
-    ExpressionAttributeNames: {
-      "#C": "creditCard",
-    },
+    UpdateExpression: 'set creditCard = :c',
     ExpressionAttributeValues: {
       ":c": {
         number: creditCardNumber(),
@@ -18,7 +16,6 @@ const createCardService = async (commandPayload) => {
       },
     },
     ReturnValues: "ALL_NEW",
-    UpdateExpression: 'SET #C = :c',
   }
 
   await dynamodb.updateItem(params);

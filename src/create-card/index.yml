@@ -1,0 +1,15 @@
+CreateCard:
+  handler: src/create-card/handler/create-card.handler
+  name: ${self:service}-${self:provider.stage}-create-card-lambda
+  environment:
+    CLIENTS_TABLE: !Ref ClientsTable
+  iamRoleStatementsInherit: true
+  iamRoleStatements: 
+    - Effect: Allow
+      Action:
+        - dynamodb:UpdateItem
+      Resource:
+        - !GetAtt ClientsTable.Arn
+  events:
+    - sqs:
+        arn: !GetAtt CreateCardQueue.Arn

@@ -1,0 +1,22 @@
+CreateClient:
+  handler: src/create-client/handler/create-client.handler
+  name: ${self:service}-${self:provider.stage}-create-client-lambda
+  environment:
+    CLIENTS_TABLE: !Ref ClientsTable
+    CLIENTS_CREATED_TOPIC: !Ref ClientCreatedTopic
+  iamRoleStatementsInherit: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sns:Publish
+      Resource:
+        - !Ref ClientCreatedTopic
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource:
+        - !GetAtt ClientsTable.Arn
+  events:
+    - http:
+        path: /create-client
+        method: post

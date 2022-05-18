@@ -1,0 +1,15 @@
+CreateGift:
+  handler: src/create-gift/handler/create-gift.handler
+  name: ${self:service}-${self:provider.stage}-create-gift-lambda
+  environment:
+    CLIENTS_TABLE: !Ref ClientsTable
+  iamRoleStatementsInherit: true
+  iamRoleStatements: 
+    - Effect: Allow
+      Action:
+        - dynamodb:UpdateItem
+      Resource:
+        - !GetAtt ClientsTable.Arn
+  events:
+    - sqs:
+        arn: !GetAtt CreateGiftQueue.Arn
