@@ -1,3 +1,5 @@
+const { ErrorHandled } = require('ebased/util/error');
+
 const { CreateClientValidation } = require('../schema/input/create-client.input');
 const { ClientCreated } = require('../schema/event/client-created.event');
 
@@ -10,10 +12,10 @@ const createClientDomain = async (commandPayload, commandMeta) => {
   new CreateClientValidation(commandPayload, commandMeta);
 
   if(!calculateAge(commandPayload.birth)) {
-    return {
-      statusCode: 400,
-      body: "Client can't get a credit card",
-    }
+    throw new ErrorHandled("Client can't get a credit card", {
+      status: 400,
+      code: "BAD_REQUEST",
+    })
   }
 
   await createClientService(commandPayload);
