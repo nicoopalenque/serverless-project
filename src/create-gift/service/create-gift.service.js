@@ -6,16 +6,12 @@ const createGiftService = async (commandPayload) => {
   const params = {
     TableName: process.env.CLIENTS_TABLE,
     Key: { dni: commandPayload.dni },
-    ExpressionAttributeNames: {
-      "#C": "gift"
-    },
+    UpdateExpression: 'set gift = :g',
     ExpressionAttributeValues: {
-      ":g": {
-        gift: setGift(commandPayload),
-      }
+      ':g': setGift(commandPayload),
     },
     ReturnValues: 'ALL_NEW',
-    UpdateExpression: 'SET #C = :g',
+
   }
 
   await dynamodb.updateItem(params);

@@ -1,0 +1,32 @@
+Resources:
+
+  CreateCardQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:service}-${self:provider.stage}-create-card-queue
+
+  CreateCardQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties: 
+      PolicyDocument: 
+        Statement:
+          - Effect: Allow
+            Action: 
+              - SQS:*
+            Resource: !GetAtt CreateCardQueue.Arn
+            Principal:
+              AWS:
+                - !Ref AWS::AccountId
+          - Effect: Allow
+            Principal:
+              AWS: 
+                - '*'
+            Action: 
+              - SQS:SendMessage
+            Resource: !GetAtt CreateCardQueue.Arn
+            Condition:
+              ArnLike:
+                aws:SourceArn:
+                  - !Ref ClientCreatedTopic
+      Queues: 
+        - !Ref CreateCardQueue
