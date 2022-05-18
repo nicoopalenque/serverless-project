@@ -6,7 +6,7 @@ const createCardDomain = async (commandPayload, commandMeta) => {
   const payload = JSON.parse(commandPayload.Message);
   new CreateCardValidation(payload, commandMeta);
 
-  const dbResponse = await createCardService(payload);
+  await createCardService(payload);
 
   return {
     statusCode: 200,
@@ -14,4 +14,4 @@ const createCardDomain = async (commandPayload, commandMeta) => {
   }
 };
 
-module.exports = { createCardDomain };
+module.exports = { createCardDomain };

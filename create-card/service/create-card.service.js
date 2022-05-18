@@ -3,7 +3,6 @@ const { creditCardNumber, expirationDate, securityCode } = require('../helper/ra
 const { setType } = require('../helper/card-type.helper');
 
 const createCardService = async (commandPayload) => {
-  console.log(commandPayload);
   const params = {
     TableName: process.env.CLIENTS_TABLE,
     Key: { dni: commandPayload.dni },
