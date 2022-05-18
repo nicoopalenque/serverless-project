@@ -6,7 +6,6 @@ const createClientService = async (commandPayload) => {
     TableName: process.env.CLIENTS_TABLE,
     Item: {
       ...commandPayload,
-      creditCard: {},
       status: 'ACTIVE',
     },
   });
