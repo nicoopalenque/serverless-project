@@ -11,7 +11,6 @@ const createGiftService = async (commandPayload) => {
       ':g': setGift(commandPayload),
     },
     ReturnValues: 'ALL_NEW',
-
   }
 
   await dynamodb.updateItem(params);
