@@ -1,0 +1,24 @@
+UpdateClient:
+  handler: src/update-client/handler/update-client.handler
+  name: ${self:service}-${self:provider.stage}-update-client-lambda
+  environment:
+    CLIENTS_TABLE: !Ref ClientsTable
+    CLIENTS_UPDATED_TOPIC: !Ref UpdateClientTopic
+    CLIENTS_CREATED_TOPIC: !Ref ClientCreatedTopic
+  iamRoleStatementsInherit: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sns:Publish
+      Resource:
+        - !Ref UpdateClientTopic
+        - !Ref ClientCreatedTopic
+    - Effect: Allow
+      Action:
+        - dynamodb:UpdateItem
+      Resource:
+        - !GetAtt ClientsTable.Arn
+  events:
+    - http:
+        path: /update-client/{dni}
+        method: put

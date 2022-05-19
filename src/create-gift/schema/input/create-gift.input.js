@@ -8,10 +8,10 @@ class CreateGiftValidation extends InputValidation {
       specversion: 'v1.0.0',
       schema: {
         strict: false,
-        name: { type: String, required: true},
-        lastName: { type: String, required: true},
+        name: { type: String, required: false},
+        lastName: { type: String, required: false},
         dni: { type: String, required: true},
-        birth: { type: String, required: true},
+        birth: { type: String, required: false},
       },
       type: 'GIFT.CREATE_GIFT'
     })

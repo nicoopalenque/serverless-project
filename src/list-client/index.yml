@@ -1,0 +1,20 @@
+ListClient:
+  handler: src/list-client/handler/list-client.handler
+  name: ${self:service}-${self:provider.stage}-list-client-lambda
+  environment:
+    CLIENTS_TABLE: !Ref ClientsTable
+  iamRoleStatementsInherit: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:GetItem
+      Resource:
+        - !GetAtt ClientsTable.Arn
+  events:
+    - http:
+        path: /list-clients
+        method: get
+    - http:
+        path: /list-clients/{dni}
+        method: get

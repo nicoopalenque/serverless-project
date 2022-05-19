@@ -1,0 +1,16 @@
+DeleteClient:
+  handler: src/delete-client/handler/delete-client.handler
+  name: ${self:service}-${self:provider.stage}-delete-client-lambda
+  environment:
+    CLIENTS_TABLE: !Ref ClientsTable
+  iamRoleStatementsInherit: true
+  iamRoleStatements: 
+    - Effect: Allow
+      Action:
+        - dynamodb:UpdateItem
+      Resource:
+        - !GetAtt ClientsTable.Arn
+  events:
+    - http:
+        path: /delete-client/{dni}
+        method: delete

@@ -15,9 +15,13 @@ functions:
   - ${file(src/create-client/index.yml)}
   - ${file(src/create-card/index.yml)}
   - ${file(src/create-gift/index.yml)}
+  - ${file(src/list-client/index.yml)}
+  - ${file(src/delete-client/index.yml)}
+  - ${file(src/update-client/index.yml)}
 
 resources:
   - ${file(resource/create-client/dynamodb.yml)}
   - ${file(resource/create-client/notification.yml)}
   - ${file(resource/create-card/queue.yml)}
   - ${file(resource/create-gift/queue.yml)}
+  - ${file(resource/update-client/notification.yml)}

@@ -1,0 +1,10 @@
+Resources:
+  
+  UpdateClientTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: Update Created Topic
+      TopicName: ${self:service}-${self:provider.stage}-update-client-topic
+      Subscription:
+        - Protocol: sqs
+          Endpoint: !GetAtt CreateGiftQueue.Arn
