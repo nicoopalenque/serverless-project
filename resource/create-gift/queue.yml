@@ -28,5 +28,6 @@ Resources:
               ArnLike:
                 aws:SourceArn:
                   - !Ref ClientCreatedTopic
+                  - !Ref UpdateClientTopic
       Queues: 
         - !Ref CreateGiftQueue
