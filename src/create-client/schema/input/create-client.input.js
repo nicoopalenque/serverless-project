@@ -7,7 +7,7 @@ class CreateClientValidation extends InputValidation {
       source: meta.source,
       specversion: 'v1.0.0',
       schema: {
-        strict: true,
+        strict: false,
         name: { type: String, required: true},
         lastName: { type: String, required: true},
         dni: { type: String, required: true},
