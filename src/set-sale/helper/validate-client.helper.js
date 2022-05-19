@@ -1,0 +1,1 @@
+module.exports.validateClient = (client) => client.active ? true : false;
