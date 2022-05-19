@@ -16,6 +16,7 @@ functions:
   - ${file(src/create-card/index.yml)}
   - ${file(src/create-gift/index.yml)}
   - ${file(src/list-client/index.yml)}
+  - ${file(src/delete-client/index.yml)}
 
 resources:
   - ${file(resource/create-client/dynamodb.yml)}

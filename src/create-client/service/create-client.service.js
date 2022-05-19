@@ -2,13 +2,15 @@ const dynamodb = require('ebased/service/storage/dynamo');
 
 const createClientService = async (commandPayload) => {
   
-  await dynamodb.putItem({
+  const response = await dynamodb.putItem({
     TableName: process.env.CLIENTS_TABLE,
     Item: {
       ...commandPayload,
-      status: 'ACTIVE',
+      active: true,
     },
   });
+  
+  return response;
 }
 
 module.exports = { createClientService };
