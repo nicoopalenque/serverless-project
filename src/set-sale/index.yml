@@ -1,0 +1,23 @@
+ValidateClient:
+  handler: src/set-sale/handler/set-sale.handler
+  name: ${self:service}-${self:provider.stage}-set-sale-lambda
+  environment:
+    CLIENTS_TABLE: !Ref ClientsTable
+    SALES_TABLE: !Ref SalesTable
+  iamRoleStatementsInherit: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+      Resource:
+        - !GetAtt ClientsTable.Arn
+    - Effect: Allow
+      Action:
+          - dynamodb:PutItem
+      Resource:
+        - !GetAtt SalesTable.Arn
+  events:
+    - http:
+        path: /sale
+        method: post

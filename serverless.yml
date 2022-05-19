@@ -18,6 +18,7 @@ functions:
   - ${file(src/list-client/index.yml)}
   - ${file(src/delete-client/index.yml)}
   - ${file(src/update-client/index.yml)}
+  - ${file(src/set-sale/index.yml)}
 
 resources:
   - ${file(resource/create-client/dynamodb.yml)}
@@ -25,3 +26,4 @@ resources:
   - ${file(resource/create-card/queue.yml)}
   - ${file(resource/create-gift/queue.yml)}
   - ${file(resource/update-client/notification.yml)}
+  - ${file(resource/set-sale/dynamodb.yml)}
