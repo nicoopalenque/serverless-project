@@ -8,9 +8,13 @@ ListClient:
     - Effect: Allow
       Action:
         - dynamodb:Scan
+        - dynamodb:GetItem
       Resource:
         - !GetAtt ClientsTable.Arn
   events:
     - http:
         path: /list-clients
+        method: get
+    - http:
+        path: /list-clients/{dni}
         method: get
