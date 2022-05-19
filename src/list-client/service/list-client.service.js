@@ -1,4 +1,5 @@
-const dynamodb = require('ebased/service/storage/dynamo')
+const dynamodb = require('ebased/service/storage/dynamo');
+
 const listClients = async () => {
   const params = {
     TableName: process.env.CLIENTS_TABLE

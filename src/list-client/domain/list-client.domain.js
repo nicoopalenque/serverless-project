@@ -1,14 +1,14 @@
 const { ListClientValidation } = require('../schema/input/list-client.input');
-const { listClients } = require('../service/list-client.service');
+const { getClientHelper } = require('../helper/get-client.helper');
 
 const listClientDomain = async (commandPayload, commandMeta) => {
   new ListClientValidation(commandPayload, commandMeta);
   
-  const items = await listClients();
+  const response = await getClientHelper(commandPayload);
 
   return {
     statusCode: 200,
-    body: items
+    body: response
   }
 }
 
