@@ -1,20 +1,11 @@
 const dynamodb = require('ebased/service/storage/dynamo');
+const { updateClientCommon } = require('../../common/update-client.common');
 
 const { setGift } = require('../helper/set-gift.helper');
 
 const createGiftService = async (commandPayload) => {
-  const params = {
-    TableName: process.env.CLIENTS_TABLE,
-    Key: { dni: commandPayload.dni },
-    UpdateExpression: 'set gift = :g',
-    ExpressionAttributeValues: {
-      ':g': setGift(commandPayload),
-    },
-    ReturnValues: 'ALL_NEW',
-  }
-
-  await dynamodb.updateItem(params);
-
+  const gift = setGift(commandPayload);
+  return await updateClientCommon(commandPayload.dni, { gift });
 }
 
 module.exports = { createGiftService };

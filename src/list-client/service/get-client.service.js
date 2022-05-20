@@ -1,12 +1,5 @@
-const dynamodb = require('ebased/service/storage/dynamo');
+const { getClientCommon } = require('../../common/get-client.common');
 
-const getClient = async (dni) => {
-  const params = {
-    TableName: process.env.CLIENTS_TABLE,
-    Key: { dni }
-  }
-  const { Item } = await dynamodb.getItem(params);
-  return Item;
-}
+const getClient = async (dni) => await getClientCommon(dni);
 
 module.exports = { getClient };
