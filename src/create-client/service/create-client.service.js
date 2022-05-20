@@ -1,16 +1,14 @@
-const dynamodb = require('ebased/service/storage/dynamo');
+const { putItemCommon } = require('../../common/put-item.common');
 
 const createClientService = async (commandPayload) => {
-  
-  const response = await dynamodb.putItem({
-    TableName: process.env.CLIENTS_TABLE,
-    Item: {
+  return await putItemCommon(
+    process.env.CLIENTS_TABLE,
+    {
       ...commandPayload,
       active: true,
-    },
-  });
-  
-  return response;
+      credit: 0,
+    }
+  )
 }
 
 module.exports = { createClientService };

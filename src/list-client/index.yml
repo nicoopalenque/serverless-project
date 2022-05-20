@@ -7,7 +7,7 @@ ListClient:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - dynamodb:Scan
+        - dynamodb:Query
         - dynamodb:GetItem
       Resource:
         - !GetAtt ClientsTable.Arn

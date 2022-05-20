@@ -110,6 +110,32 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "BUY Products",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dni\": \"1111\",\n    \"sale\": [\n        {\n            \"product\": \"Celular\",\n            \"price\": 1000\n        },\n        {\n            \"product\": \"Chocolate\",\n            \"price\": 100\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sale",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sale"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
