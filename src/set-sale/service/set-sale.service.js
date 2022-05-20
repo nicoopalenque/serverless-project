@@ -1,6 +1,6 @@
 const dynamodb = require('ebased/service/storage/dynamo');
 const uuid = require('uuid');
-const { applyDiscount } = require('../helper/apply-discount');
+const { applyDiscount } = require('../helper/apply-discount.helper');
 
 const setSaleService = async (client, payload) => {
 

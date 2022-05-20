@@ -5,7 +5,8 @@ const applyDiscount = ({ creditCard }, { sale }) => {
   const response = sale.map((product) => {
     const element = {};
     element['product'] = product.product;
-    element['price'] = product.price - (product.price * discount);
+    element['price'] = product.price;
+    element['finalPrice'] = product.price - (product.price * discount);
     element['discount'] = `${discount}%`;
     element['date'] = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()} ${today.getHours()}:${today.getMinutes()}`;
     return element;
