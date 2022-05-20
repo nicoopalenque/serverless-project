@@ -7,7 +7,7 @@ const applyDiscount = ({ creditCard }, { sale }) => {
     element['product'] = product.product;
     element['price'] = product.price - (product.price * discount);
     element['discount'] = `${discount}%`;
-    element['date'] = `${today.getFullYear()}/${today.getMonth()}/${today.getDate()} ${today.getHours()}:${today.getMinutes()}`;
+    element['date'] = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()} ${today.getHours()}:${today.getMinutes()}`;
     return element;
   })
 

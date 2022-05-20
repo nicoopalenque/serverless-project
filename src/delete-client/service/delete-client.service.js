@@ -1,20 +1,6 @@
-const dynamodb = require('ebased/service/storage/dynamo');
+const { updateClientCommon } = require('../../common/update-client.common');
 
-const deleteClientService = async (payload) => {
-  const { dni } = payload;
-
-  const params = {
-    TableName: process.env.CLIENTS_TABLE,
-    Key: { dni },
-    UpdateExpression: 'set active = :a',
-    ExpressionAttributeValues: {
-      ':a': false,
-    },
-    ReturnValues: 'ALL_NEW',
-  }
-
-  const { Attributes } = await dynamodb.updateItem(params);
-  return Attributes;
-}
+const deleteClientService = async (payload) =>
+  await updateClientCommon(payload.dni, { active: false })
 
 module.exports = { deleteClientService };

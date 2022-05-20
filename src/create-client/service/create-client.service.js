@@ -7,6 +7,7 @@ const createClientService = async (commandPayload) => {
     Item: {
       ...commandPayload,
       active: true,
+      credit: 0,
     },
   });
   
